@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expense &amp; Budget Visualizer</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <!-- Storage warning banner (hidden by default) -->
+  <div id="storage-warning" class="storage-warning" role="alert" aria-live="polite" hidden>
+    ⚠️ Local Storage is unavailable. Your data will not be saved between sessions.
+  </div>
+
+  <div class="app-container">
+    <!-- Header: Balance -->
+    <header class="app-header">
+      <h1 class="app-title">Expense &amp; Budget Visualizer</h1>
+      <div class="balance-section">
+        <span class="balance-label">Total Balance</span>
+        <span id="balance-display" class="balance-amount">$0.00</span>
+      </div>
+      <div class="header-controls">
+        <button id="theme-toggle" class="btn btn-icon" type="button" aria-label="Toggle dark/light theme">
+          🌙 Toggle Theme
+        </button>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <!-- Input Form -->
+      <section class="form-section" aria-labelledby="form-heading">
+        <h2 id="form-heading" class="section-title">Add Transaction</h2>
+        <form id="transaction-form" novalidate>
+          <div class="form-group">
+            <label for="item-name" class="form-label">Item Name</label>
+            <input
+              type="text"
+              id="item-name"
+              name="item-name"
+              class="form-input"
+              placeholder="e.g. Coffee"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-group">
+            <label for="item-amount" class="form-label">Amount ($)</label>
+            <input
+              type="number"
+              id="item-amount"
+              name="item-amount"
+              class="form-input"
+              placeholder="e.g. 3.50"
+              min="0.01"
+              step="0.01"
+            />
+          </div>
+          <div class="form-group">
+            <label for="item-category" class="form-label">Category</label>
+            <select id="item-category" name="item-category" class="form-select">
+              <option value="">-- Select Category --</option>
+              <option value="Food">Food</option>
+              <option value="Transport">Transport</option>
+              <option value="Fun">Fun</option>
+            </select>
+          </div>
+          <div id="form-error" class="form-error" role="alert" aria-live="polite"></div>
+          <button type="submit" class="btn btn-primary">Add Transaction</button>
+        </form>
+      </section>
+
+      <div class="content-area">
+        <!-- Transaction List -->
+        <section class="list-section" aria-labelledby="list-heading">
+          <div class="list-header">
+            <h2 id="list-heading" class="section-title">Transactions</h2>
+            <div class="sort-control">
+              <label for="sort-select" class="sort-label">Sort by:</label>
+              <select id="sort-select" class="form-select sort-select">
+                <option value="default">Default (newest first)</option>
+                <option value="amount-asc">Amount (Low→High)</option>
+                <option value="amount-desc">Amount (High→Low)</option>
+                <option value="category-az">Category (A–Z)</option>
+              </select>
+            </div>
+          </div>
+          <ul id="transaction-list" class="transaction-list" aria-label="Transaction history">
+            <!-- Transactions rendered here by JS -->
+          </ul>
+        </section>
+
+        <!-- Chart -->
+        <section class="chart-section" aria-labelledby="chart-heading">
+          <h2 id="chart-heading" class="section-title">Spending by Category</h2>
+          <div class="chart-container">
+            <canvas id="spending-chart" aria-label="Pie chart of spending by category" role="img"></canvas>
+            <div id="chart-empty" class="chart-empty" hidden>No data to display</div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Monthly Summary -->
+      <section id="monthly-summary-section" class="monthly-summary-section" aria-labelledby="summary-heading" hidden>
+        <h2 id="summary-heading" class="section-title">Monthly Summary</h2>
+        <div id="monthly-summary-content" class="monthly-summary-content">
+          <!-- Monthly groups rendered here by JS -->
+        </div>
+      </section>
+
+      <div class="summary-toggle-container">
+        <button id="monthly-summary-toggle" class="btn btn-secondary" type="button">
+          Show Monthly Summary
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <script defer src="js/app.js"></script>
+</body>
+</html>
